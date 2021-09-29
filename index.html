@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+            <title>
+                Cards
+            </title>
+            <script src="https://code.jquery.com/jquery-3.5.0.js">
+            </script>
+        </meta>
+    </head>
+    <body>
+        <form id="playing-card-form" name="playing-card-form" style="margin-bottom: 10px;">
+        	<label>No of Player: </label>
+            <input id="total-player" name="total-player" type="text"/>
+            <input id="btn-submit" name="btn-submit" type="button" value="Start"/>
+        </form>
+        <div id="output">
+        </div>
+    </body>
+</html>
+<script type="text/javascript">
+    let cards = ['S-A', 'S-2', 'S-3', 'S-4', 'S-5', 'S-6', 'S-7', 'S-8', 'S-9', 'S-X', 'S-J', 'S-Q', 'S-K','H-A', 'H-2', 'H-3', 'H-4', 'H-5', 'H-6', 'H-7', 'H-8', 'H-9', 'H-X', 'H-J', 'H-Q', 'H-K', 'D-A', 'D-2', 'D-3', 'D-4', 'D-5', 'D-6', 'D-7', 'D-8', 'D-9', 'D-X', 'D-J', 'D-Q', 'D-K', 'C-A', 'C-2', 'C-3', 'C-4', 'C-5', 'C-6', 'C-7', 'C-8', 'C-9', 'C-X', 'C-J', 'C-Q', 'C-K'];
+
+	$( "#btn-submit" ).click(function() {
+	  var totalPlayers = $( "#total-player" ).val();
+	  var output = '';
+	  var currentPlayer = 1;
+	  let playerWithCards = [];
+
+	  if(isNaN(totalPlayers) || totalPlayers <= 0){
+	  	if(confirm("Invalid")) window.location.reload();
+	  }
+
+	  cards.sort(() => Math.random() - 0.5);
+
+	  for (var player = 1; player <= totalPlayers; player++) {
+	  	playerWithCards[player] = [];
+	  }
+
+	  $.each(cards, function (index, card) {
+	  	playerWithCards[currentPlayer][index] = card;
+
+	  	if (currentPlayer < totalPlayers) {
+	  		currentPlayer ++;
+	  	}
+	  	else{
+	  		currentPlayer = 1;
+	  	}
+	  });
+
+	  output += '<p>Spade = S, Heart = H, Diamond = D, Club = C</p>';
+	  output += '<p>Card 2 to 9 are, as it is, 1=A,10=X,11=J,12=Q,13=K </p>';
+
+	  $.each(playerWithCards, function (index, playerWithCard) {
+	  	if(playerWithCard != undefined){
+	  		playerWithCard = playerWithCard.filter(item => item);
+	  		output += 'Player' + index + ' :' + playerWithCard.toString() + '<br>';
+	  	}
+	  });
+	  
+	  var div = document.getElementById('output');
+	  div.innerHTML += output;
+	});
+</script>
